@@ -26,7 +26,9 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					dark: 'hsl(var(--primary-dark))',
+					light: 'hsl(var(--primary-light))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -50,7 +52,37 @@ export default {
 				},
 				card: {
 					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
+					foreground: 'hsl(var(--card-foreground))',
+					elevated: 'hsl(var(--card-elevated))'
+				},
+				bull: {
+					DEFAULT: 'hsl(var(--bull))',
+					foreground: 'hsl(var(--bull-foreground))',
+					bg: 'hsl(var(--bull-bg))'
+				},
+				bear: {
+					DEFAULT: 'hsl(var(--bear))',
+					foreground: 'hsl(var(--bear-foreground))',
+					bg: 'hsl(var(--bear-bg))'
+				},
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))'
+				},
+				warning: {
+					DEFAULT: 'hsl(var(--warning))',
+					foreground: 'hsl(var(--warning-foreground))'
+				},
+				danger: {
+					DEFAULT: 'hsl(var(--danger))',
+					foreground: 'hsl(var(--danger-foreground))'
+				},
+				profit: 'hsl(var(--profit))',
+				loss: 'hsl(var(--loss))',
+				neutral: 'hsl(var(--neutral))',
+				paper: {
+					overlay: 'hsl(var(--paper-overlay))',
+					bg: 'hsl(var(--paper-bg))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
@@ -62,6 +94,18 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				}
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-bull': 'var(--gradient-bull)',
+				'gradient-bear': 'var(--gradient-bear)',
+				'gradient-card': 'var(--gradient-card)'
+			},
+			boxShadow: {
+				'trading-sm': 'var(--shadow-sm)',
+				'trading-md': 'var(--shadow-md)',
+				'trading-lg': 'var(--shadow-lg)',
+				'trading-glow': 'var(--shadow-glow)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

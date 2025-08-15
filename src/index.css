@@ -1,96 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* TradeAI Design System - Professional Trading Interface */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Core neutral palette */
+    --background: 218 25% 8%;
+    --foreground: 210 20% 95%;
+    
+    /* Cards and surfaces */
+    --card: 220 20% 10%;
+    --card-foreground: 210 20% 95%;
+    --card-elevated: 220 25% 12%;
+    
+    /* Interactive elements */
+    --popover: 220 20% 10%;
+    --popover-foreground: 210 20% 95%;
+    
+    /* Trading brand colors */
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 210 100% 45%;
+    --primary-light: 210 100% 60%;
+    
+    /* Trading semantic colors */
+    --bull: 120 60% 45%;
+    --bull-foreground: 0 0% 100%;
+    --bull-bg: 120 60% 8%;
+    --bear: 0 70% 55%;
+    --bear-foreground: 0 0% 100%;
+    --bear-bg: 0 70% 8%;
+    
+    /* Status colors */
+    --success: 120 60% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 45 90% 55%;
+    --warning-foreground: 0 0% 0%;
+    --danger: 0 70% 55%;
+    --danger-foreground: 0 0% 100%;
+    
+    /* Neutral variants */
+    --secondary: 220 15% 20%;
+    --secondary-foreground: 210 20% 90%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 220 10% 65%;
+    --accent: 220 25% 15%;
+    --accent-foreground: 210 20% 90%;
+    
+    /* Interactive states */
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Form elements */
+    --border: 220 15% 25%;
+    --input: 220 15% 18%;
+    --ring: 210 100% 50%;
+    
+    /* Trading specific */
+    --profit: 120 60% 45%;
+    --loss: 0 70% 55%;
+    --neutral: 220 10% 60%;
+    
+    /* Paper trading overlay */
+    --paper-overlay: 45 90% 55%;
+    --paper-bg: 45 90% 10%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(210 100% 50%), hsl(220 100% 60%));
+    --gradient-bull: linear-gradient(135deg, hsl(120 60% 45%), hsl(140 60% 40%));
+    --gradient-bear: linear-gradient(135deg, hsl(0 70% 55%), hsl(350 70% 50%));
+    --gradient-card: linear-gradient(135deg, hsl(220 20% 10%), hsl(220 25% 12%));
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(220 40% 5% / 0.3);
+    --shadow-md: 0 4px 6px -1px hsl(220 40% 5% / 0.3), 0 2px 4px -1px hsl(220 40% 5% / 0.2);
+    --shadow-lg: 0 10px 15px -3px hsl(220 40% 5% / 0.4), 0 4px 6px -2px hsl(220 40% 5% / 0.3);
+    --shadow-glow: 0 0 20px hsl(210 100% 50% / 0.3);
+    
+    /* Layout */
+    --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+    --radius-lg: 1rem;
+    
+    /* Sidebar */
+    --sidebar-background: 220 25% 8%;
+    --sidebar-foreground: 210 20% 90%;
+    --sidebar-primary: 210 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 20% 12%;
+    --sidebar-accent-foreground: 210 20% 90%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 210 100% 50%;
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s ease-out;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 220 25% 15%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 15%;
+    --card-elevated: 220 10% 98%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 15%;
+    
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 210 100% 45%;
+    --primary-light: 210 100% 60%;
+    
+    --bull: 120 60% 40%;
+    --bull-foreground: 0 0% 100%;
+    --bull-bg: 120 60% 95%;
+    --bear: 0 70% 50%;
+    --bear-foreground: 0 0% 100%;
+    --bear-bg: 0 70% 95%;
+    
+    --success: 120 60% 40%;
+    --warning: 45 90% 50%;
+    --danger: 0 70% 50%;
+    
+    --secondary: 220 10% 95%;
+    --secondary-foreground: 220 25% 20%;
+    --muted: 220 10% 96%;
+    --muted-foreground: 220 15% 45%;
+    --accent: 220 10% 94%;
+    --accent-foreground: 220 25% 20%;
+    
+    --border: 220 15% 85%;
+    --input: 220 15% 96%;
+    --ring: 210 100% 50%;
+    
+    --paper-overlay: 45 90% 50%;
+    --paper-bg: 45 90% 96%;
+  }
+}
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+@layer base {
+  * {
+    @apply border-border;
+  }
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+  /* Trading-specific utilities */
+  .text-bull {
+    color: hsl(var(--bull));
+  }
+  
+  .text-bear {
+    color: hsl(var(--bear));
+  }
+  
+  .bg-bull {
+    background-color: hsl(var(--bull));
+  }
+  
+  .bg-bear {
+    background-color: hsl(var(--bear));
+  }
+  
+  .bg-bull-subtle {
+    background-color: hsl(var(--bull-bg));
+  }
+  
+  .bg-bear-subtle {
+    background-color: hsl(var(--bear-bg));
+  }
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .transition-fast {
+    transition: var(--transition-fast);
+  }
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+  /* Trading table styles */
+  .trading-table th {
+    @apply bg-muted/50 text-xs font-semibold text-muted-foreground uppercase tracking-wider;
+  }
+  
+  .trading-table td {
+    @apply text-sm border-b border-border/50;
+  }
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  /* Paper trading watermark */
+  .paper-mode::before {
+    content: 'PAPER';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 8rem;
+    font-weight: 900;
+    color: hsl(var(--paper-overlay) / 0.1);
+    pointer-events: none;
+    z-index: 0;
+    user-select: none;
   }
 }
 
