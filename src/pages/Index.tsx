@@ -5,6 +5,7 @@ import { Dashboard } from "@/pages/Dashboard";
 import { Scanner } from "@/pages/Scanner";
 import { AIStrategy } from "@/pages/AIStrategy";
 import { OrdersPositions } from "@/pages/OrdersPositions";
+import { Settings } from "@/pages/Settings";
 import { useTradeStore } from "@/store/useTradeStore";
 import { cn } from "@/lib/utils";
 
@@ -101,12 +102,7 @@ const Index = () => {
           </div>
         );
       case 'settings':
-        return (
-          <div className="text-center py-12 text-muted-foreground">
-            <h3 className="text-lg font-semibold mb-2">Settings Coming Soon</h3>
-            <p>Risk settings and configuration will be available here.</p>
-          </div>
-        );
+        return <Settings />;
       default:
         return <Dashboard />;
     }

@@ -8,8 +8,9 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { useTradeStore } from "@/store/useTradeStore";
-import { Brain, Zap, Target, Shield, TrendingUp, AlertCircle, CheckCircle } from "lucide-react";
+import { Brain, Zap, Target, Shield, TrendingUp, AlertCircle, CheckCircle, Bot, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface AIDecision {
   action: 'BUY' | 'SELL' | 'HOLD' | 'EXIT';
@@ -25,7 +26,8 @@ interface AIDecision {
 }
 
 export function AIStrategy() {
-  const { mode, isRiskLocked } = useTradeStore();
+  const { mode, isRiskLocked, autopilot } = useTradeStore();
+  const isAutopilotActive = autopilot[mode.toLowerCase() as keyof typeof autopilot];
   const [selectedSymbol, setSelectedSymbol] = useState('RELIANCE');
   const [capital, setCapital] = useState('10000');
   const [riskPerTrade, setRiskPerTrade] = useState('2');
@@ -80,11 +82,27 @@ export function AIStrategy() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-semibold flex items-center gap-2">
           <Brain className="h-5 w-5" />
           AI Trading Strategy
+          {isAutopilotActive && (
+            <Badge variant="default" className="bg-bull hover:bg-bull/90 ml-2">
+              <Bot className="h-3 w-3 mr-1" />
+              Autopilot Active
+            </Badge>
+          )}
         </h2>
+      </div>
+
+      {isAutopilotActive && (
+        <Alert>
+          <Info className="h-4 w-4" />
+          <AlertDescription>
+            AI Autopilot is managing entries and exits automatically in {mode} mode. Manual controls are limited to emergency overrides.
+          </AlertDescription>
+        </Alert>
+      )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Strategy Configuration */}
@@ -171,7 +189,7 @@ export function AIStrategy() {
 
               <Button 
                 onClick={handleAIAnalysis}
-                disabled={!useAI || isAnalyzing || isRiskLocked}
+                disabled={!useAI || isAnalyzing || isRiskLocked || isAutopilotActive}
                 className="w-full"
                 size="lg"
               >
@@ -179,6 +197,11 @@ export function AIStrategy() {
                   <>
                     <Brain className="h-4 w-4 mr-2 animate-spin" />
                     Analyzing...
+                  </>
+                ) : isAutopilotActive ? (
+                  <>
+                    <Bot className="h-4 w-4 mr-2" />
+                    Managed by Autopilot
                   </>
                 ) : (
                   <>
@@ -264,7 +287,7 @@ export function AIStrategy() {
                   {(aiDecision.action === 'BUY' || aiDecision.action === 'SELL') && (
                     <Button 
                       onClick={handleExecuteTrade}
-                      disabled={isRiskLocked}
+                      disabled={isRiskLocked || isAutopilotActive}
                       className={cn(
                         "w-full",
                         aiDecision.action === 'BUY' && "bg-bull hover:bg-bull/90",
@@ -273,7 +296,7 @@ export function AIStrategy() {
                       size="lg"
                     >
                       <CheckCircle className="h-4 w-4 mr-2" />
-                      Execute {aiDecision.action} Order
+                      {isAutopilotActive ? "Auto-Managed" : `Execute ${aiDecision.action} Order`}
                     </Button>
                   )}
 
@@ -302,7 +325,6 @@ export function AIStrategy() {
             </CardContent>
           </Card>
         )}
-      </div>
     </div>
   );
 }

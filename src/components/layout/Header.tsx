@@ -1,11 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, Power, Settings, TrendingUp, TrendingDown } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { AlertTriangle, Power, Settings, TrendingUp, TrendingDown, Bot, Zap } from "lucide-react";
 import { useTradeStore } from "@/store/useTradeStore";
 import { cn } from "@/lib/utils";
 
 export function Header() {
-  const { mode, brokerStatus, isRiskLocked, dayPnL, totalPnL, setMode } = useTradeStore();
+  const { 
+    mode, 
+    brokerStatus, 
+    isRiskLocked, 
+    dayPnL, 
+    totalPnL, 
+    autopilot,
+    brokers,
+    setMode, 
+    setAutopilot 
+  } = useTradeStore();
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -65,22 +76,47 @@ export function Header() {
           </div>
         </div>
 
+        {/* AI Autopilot Toggle */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Bot className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">AI Autopilot:</span>
+            <Switch
+              checked={autopilot[mode.toLowerCase() as keyof typeof autopilot]}
+              onCheckedChange={(checked) => setAutopilot(mode, checked)}
+              className="data-[state=checked]:bg-bull"
+            />
+            {autopilot[mode.toLowerCase() as keyof typeof autopilot] && (
+              <Badge variant="default" className="bg-bull hover:bg-bull/90 text-white">
+                <Zap className="h-3 w-3 mr-1" />
+                AI ON
+              </Badge>
+            )}
+          </div>
+        </div>
+
         {/* Broker Status */}
-        <div className="flex items-center gap-2">
-          <Power
-            className={cn(
-              "h-4 w-4",
-              brokerStatus === 'CONNECTED' ? "text-bull" : "text-bear"
-            )}
-          />
-          <Badge
-            variant={brokerStatus === 'CONNECTED' ? 'default' : 'destructive'}
-            className={cn(
-              brokerStatus === 'CONNECTED' && "bg-bull hover:bg-bull/90"
-            )}
-          >
-            {brokerStatus}
-          </Badge>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Badge
+              variant={brokers.zerodha.status === 'CONNECTED' ? 'default' : 'secondary'}
+              className={cn(
+                "text-xs",
+                brokers.zerodha.status === 'CONNECTED' && "bg-bull hover:bg-bull/90"
+              )}
+            >
+              Zerodha
+            </Badge>
+            <Badge
+              variant={brokers.angelone.status === 'CONNECTED' ? 'default' : 'secondary'}
+              className={cn(
+                "text-xs",
+                brokers.angelone.status === 'CONNECTED' && "bg-bull hover:bg-bull/90"
+              )}
+            >
+              Angel One
+            </Badge>
+          </div>
         </div>
       </div>
 

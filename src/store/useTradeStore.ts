@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export type TradingMode = 'PAPER' | 'LIVE';
-export type BrokerStatus = 'CONNECTED' | 'DISCONNECTED' | 'ERROR';
+export type BrokerConnectionStatus = 'CONNECTED' | 'DISCONNECTED' | 'ERROR';
 
 interface Position {
   id: string;
@@ -39,11 +39,43 @@ interface Quote {
   age_ms: number;
 }
 
+interface BrokersState {
+  zerodha: {
+    status: 'CONNECTED' | 'DISCONNECTED';
+    userId?: string;
+  };
+  angelone: {
+    status: 'CONNECTED' | 'DISCONNECTED';
+    clientCode?: string;
+    feedTokenAgeMs?: number;
+  };
+}
+
+interface BudgetAllocation {
+  zerodha: number;
+  angelone: number;
+}
+
+interface AutopilotState {
+  paper: boolean;
+  live: boolean;
+}
+
 interface TradeStore {
   // Mode & Status
   mode: TradingMode;
-  brokerStatus: BrokerStatus;
+  brokerStatus: BrokerConnectionStatus;
   isRiskLocked: boolean;
+  
+  // AI Autopilot
+  autopilot: AutopilotState;
+  
+  // Broker Management
+  brokers: BrokersState;
+  budgets: {
+    paper: BudgetAllocation;
+    live: BudgetAllocation;
+  };
   
   // Trading Data
   positions: Position[];
@@ -61,8 +93,11 @@ interface TradeStore {
   
   // Actions
   setMode: (mode: TradingMode) => void;
-  setBrokerStatus: (status: BrokerStatus) => void;
+  setBrokerStatus: (status: BrokerConnectionStatus) => void;
   setRiskLocked: (locked: boolean) => void;
+  setAutopilot: (mode: TradingMode, enabled: boolean) => void;
+  updateBrokers: (brokers: Partial<BrokersState>) => void;
+  updateBudgets: (mode: TradingMode, budgets: BudgetAllocation) => void;
   updatePositions: (positions: Position[]) => void;
   updateOrders: (orders: Order[]) => void;
   updateQuote: (symbol: string, quote: Quote) => void;
@@ -78,6 +113,15 @@ export const useTradeStore = create<TradeStore>()(
       mode: 'PAPER',
       brokerStatus: 'DISCONNECTED',
       isRiskLocked: false,
+      autopilot: { paper: false, live: false },
+      brokers: {
+        zerodha: { status: 'DISCONNECTED' },
+        angelone: { status: 'DISCONNECTED' }
+      },
+      budgets: {
+        paper: { zerodha: 0, angelone: 0 },
+        live: { zerodha: 0, angelone: 0 }
+      },
       positions: [],
       orders: [],
       quotes: new Map(),
@@ -91,6 +135,20 @@ export const useTradeStore = create<TradeStore>()(
       setMode: (mode) => set({ mode }),
       setBrokerStatus: (status) => set({ brokerStatus: status }),
       setRiskLocked: (locked) => set({ isRiskLocked: locked }),
+      setAutopilot: (mode, enabled) => {
+        const autopilot = { ...get().autopilot };
+        autopilot[mode.toLowerCase() as keyof AutopilotState] = enabled;
+        set({ autopilot });
+      },
+      updateBrokers: (brokers) => {
+        const currentBrokers = { ...get().brokers };
+        set({ brokers: { ...currentBrokers, ...brokers } });
+      },
+      updateBudgets: (mode, budgets) => {
+        const currentBudgets = { ...get().budgets };
+        currentBudgets[mode.toLowerCase() as keyof typeof currentBudgets] = budgets;
+        set({ budgets: currentBudgets });
+      },
       updatePositions: (positions) => set({ positions }),
       updateOrders: (orders) => set({ orders }),
       updateQuote: (symbol, quote) => {
