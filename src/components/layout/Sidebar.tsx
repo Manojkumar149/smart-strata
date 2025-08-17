@@ -19,6 +19,7 @@ interface SidebarProps {
 const navigation = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'scanner', label: 'Scanner', icon: Search },
+  { id: 'ai', label: 'AI System', icon: Brain },
   { id: 'strategy', label: 'AI Strategy', icon: Brain },
   { id: 'orders', label: 'Orders & Positions', icon: Receipt },
   { id: 'journal', label: 'Journal', icon: BookOpen },

@@ -95,26 +95,15 @@ export function Header() {
           </div>
         </div>
 
-        {/* Broker Status */}
+        {/* Primary Broker Status */}
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Primary:</span>
             <Badge
-              variant={brokers.zerodha.status === 'CONNECTED' ? 'default' : 'secondary'}
-              className={cn(
-                "text-xs",
-                brokers.zerodha.status === 'CONNECTED' && "bg-bull hover:bg-bull/90"
-              )}
+              variant="outline"
+              className="text-xs border-bull text-bull"
             >
               Zerodha
-            </Badge>
-            <Badge
-              variant={brokers.angelone.status === 'CONNECTED' ? 'default' : 'secondary'}
-              className={cn(
-                "text-xs",
-                brokers.angelone.status === 'CONNECTED' && "bg-bull hover:bg-bull/90"
-              )}
-            >
-              Angel One
             </Badge>
           </div>
         </div>
