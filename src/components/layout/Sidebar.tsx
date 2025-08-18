@@ -9,44 +9,42 @@ import {
   TrendingUp, 
   Settings 
 } from "lucide-react";
-import { useState } from "react";
-
-interface SidebarProps {
-  activeTab: string;
-  onTabChange: (tab: string) => void;
-}
+import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { id: 'scanner', label: 'Scanner', icon: Search },
-  { id: 'ai', label: 'AI System', icon: Brain },
-  { id: 'strategy', label: 'AI Strategy', icon: Brain },
-  { id: 'orders', label: 'Orders & Positions', icon: Receipt },
-  { id: 'journal', label: 'Journal', icon: BookOpen },
-  { id: 'backtest', label: 'Backtest', icon: TrendingUp },
-  { id: 'settings', label: 'Settings', icon: Settings },
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
+  { id: 'scanner', label: 'Scanner', icon: Search, href: '/scanner' },
+  { id: 'ai', label: 'AI System', icon: Brain, href: '/ai' },
+  { id: 'orders', label: 'Orders & Positions', icon: Receipt, href: '/orders' },
+  { id: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
 ];
 
-export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
+export default function Sidebar() {
+  const location = useLocation();
+  
   return (
     <aside className="w-64 bg-sidebar border-r border-sidebar-border h-full flex flex-col">
       <nav className="flex-1 p-4 space-y-2">
         {navigation.map((item) => {
           const Icon = item.icon;
+          const isActive = location.pathname === item.href;
+          
           return (
             <Button
               key={item.id}
-              variant={activeTab === item.id ? "default" : "ghost"}
+              variant={isActive ? "default" : "ghost"}
               className={cn(
                 "w-full justify-start gap-3 text-sm",
-                activeTab === item.id 
+                isActive 
                   ? "bg-sidebar-primary text-sidebar-primary-foreground" 
                   : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               )}
-              onClick={() => onTabChange(item.id)}
+              asChild
             >
-              <Icon className="h-4 w-4" />
-              {item.label}
+              <Link to={item.href}>
+                <Icon className="h-4 w-4" />
+                {item.label}
+              </Link>
             </Button>
           );
         })}

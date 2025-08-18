@@ -1,11 +1,11 @@
 // IST timezone utilities for trading hours
 import { format, isAfter, isBefore, parseISO } from 'date-fns';
-import { zonedTimeToUtc, utcToZonedTime, formatInTimeZone } from 'date-fns-tz';
+import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
 
 const IST_TIMEZONE = 'Asia/Kolkata';
 
 export const getCurrentIST = (): Date => {
-  return utcToZonedTime(new Date(), IST_TIMEZONE);
+  return toZonedTime(new Date(), IST_TIMEZONE);
 };
 
 export const formatIST = (date: Date, formatString: string = 'dd MMM yyyy HH:mm:ss'): string => {
@@ -13,7 +13,7 @@ export const formatIST = (date: Date, formatString: string = 'dd MMM yyyy HH:mm:
 };
 
 export const parseISTString = (dateString: string): Date => {
-  return zonedTimeToUtc(parseISO(dateString), IST_TIMEZONE);
+  return toZonedTime(parseISO(dateString), IST_TIMEZONE);
 };
 
 // Trading hours validation
